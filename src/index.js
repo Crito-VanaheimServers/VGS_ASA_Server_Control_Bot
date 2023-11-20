@@ -16,7 +16,7 @@ const client = new Client({
 client.on('ready', (c) => {
     console.log(`${c.user.tag} is online.`);
 
-    setInterval(()=>{
+   /* setInterval(()=>{
         var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
         rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
         require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
@@ -54,7 +54,7 @@ client.on('ready', (c) => {
                 });
             }           
         })()
-    },30000);
+    },30000);*/
 
     setInterval(()=>{
         var rconGetChatBat = fs.createWriteStream("./rcon/rcon_GetChat.bat");
@@ -63,12 +63,12 @@ client.on('ready', (c) => {
         
         (async function() {
             const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) 
-            await sleep(500)
+            
+            await sleep(2000)
             const rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);;
             newChat = [];
 
             if(rconGetChat[0].trim() === 'Server received, But no response!!'){
-                 return
                 }else{
                 for (let i = 0; i < rconGetChat.length; i++) {                        
                     if(rconGetChat[i].length > 2){
@@ -76,22 +76,58 @@ client.on('ready', (c) => {
                         PlyrChat = PlyrChat.substring(0, PlyrChat.length - 0);
 
                         if(PlyrChat.includes("(From Discord)")){
-                            return
                         }else{
                             newChat.push(PlyrChat);
                         } 
                      }                   
                  }
-                //client.channels.cache.get((process.env.Chat_Channel_ID)).send((`${newChat}`))
 
                 const chatToString = newChat.toString();
                 
+                if(chatToString === 'No Players Connected'){
+                }else{
                 const gameChatEmbed = new EmbedBuilder()
-                //.setTitle((process.env.ASA_EmbedTitle))
                 .addFields({name: 'GAME CHAT:', value: (`${chatToString}`)})
                 .setColor(0x00e8ff)
                 client.channels.cache.get((process.env.Chat_Channel_ID)).send({embeds: [gameChatEmbed]});
-            }         
+                }
+            } 
+            
+            await sleep(2000)
+            var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
+            rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
+            require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
+            
+            await sleep(2000)
+            const rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
+            const newCount = [];
+
+            if(rconPlayerCnt[0].trim() === 'No Players Connected'){
+                client.user.setPresence({ 
+                    activities: [{ 
+                        name: '0/'+(process.env.ServerSlots), 
+                        type: ActivityType.Playing,  
+                    }], 
+                    status: 'online' 
+                });
+            }else{
+                for (let i = 0; i < rconPlayerCnt.length; i++) {                        
+                    if(rconPlayerCnt[i].length < 20){
+                        if(rconPlayerCnt[i].length > 2){
+                            let PlyrCount = rconPlayerCnt[i];
+                            PlyrCount = PlyrCount.substring(3, PlyrCount.length - 0);
+                            newCount.push(PlyrCount); 
+                        }                   
+                    }                      
+                }
+                client.user.setPresence({ 
+                    activities: [{ 
+                        name: (newCount.length)+'/'+(process.env.ServerSlots), 
+                        type: ActivityType.Playing,  
+                    }], 
+                    status: 'online' 
+                });
+            }
         })()
     },3000);
 })   
