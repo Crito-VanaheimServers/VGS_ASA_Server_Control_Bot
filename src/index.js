@@ -3,6 +3,8 @@ const { channel } = require('diagnostics_channel');
 const {Client, IntentsBitField, EmbedBuilder, ActivityType} = require ('discord.js');
 
 const fs = require('fs');
+const es = require('fs');
+const gs = require('fs');
 
 const client = new Client({
     intents: [
@@ -94,12 +96,12 @@ client.on('ready', (c) => {
             } 
             
             await sleep(2000)
-            var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
+            var rconStatusBat = es.createWriteStream("./rcon/rcon_BotStatus.bat");
             rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
             require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
             
             await sleep(2000)
-            const rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
+            const rconPlayerCnt = es.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
             const newCount = [];
 
             if(rconPlayerCnt[0].trim() === 'No Players Connected'){
@@ -187,14 +189,14 @@ client.on('interactionCreate', (interaction) =>{
     }
 
     if (interaction.commandName === 'asa_the_island_players') {
-        var rconBatch = fs.createWriteStream("./rcon/rcon_ASAPlayers.bat");
+        var rconBatch = gs.createWriteStream("./rcon/rcon_ASAPlayers.bat");
         rconBatch.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_ASAPlayers.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_ASAPlayers.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_ASAPlayers.txt"');
         require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_ASAPlayers.bat') , function (){});
         
         (async function() {
             const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) 
             await sleep(500)
-            const playerList = fs.readFileSync('./rcon/rcon_ASAPlayers.txt', 'utf-8').split(/[,,\n]/);
+            const playerList = gs.readFileSync('./rcon/rcon_ASAPlayers.txt', 'utf-8').split(/[,,\n]/);
             const newPlayerList = [];
             
             if(playerList[0].trim() === 'No Players Connected'){
