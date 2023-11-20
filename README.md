@@ -1,6 +1,5 @@
 # VGS_ASA_Server_Control_Bot
 
-/*
 VGS ASA Server Control Bot
 By Crito @Vanaheim Gaming Servers
 https://discord.gg/pxC7qSzQ8X
@@ -13,7 +12,7 @@ not altered in any way.
 
 License:
     zlib/libpng License
-*/
+
 
 Bot controls Ark Survival Ascended Server. Designate a specific channel for admin use only so users with
 permissions to that channel can using slash commands to start, Stop, Restart your server from discord
