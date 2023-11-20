@@ -13,6 +13,14 @@ not altered in any way.
 License:
     zlib/libpng License
 
+install video: 
+https://www.youtube.com/watch?v=7GXcJXDNKz8
+
+node.js download
+https://nodejs.org/en
+
+Discord developer site
+https://discord.com/developers/applications
 
 Bot controls Ark Survival Ascended Server. Designate a specific channel for admin use only so users with
 permissions to that channel can using slash commands to start, Stop, Restart your server from discord
