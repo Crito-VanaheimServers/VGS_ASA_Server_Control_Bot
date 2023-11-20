@@ -3,8 +3,10 @@ const { channel } = require('diagnostics_channel');
 const {Client, IntentsBitField, EmbedBuilder, ActivityType} = require ('discord.js');
 
 const fs = require('fs');
-const es = require('fs');
-const gs = require('fs');
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 const client = new Client({
     intents: [
@@ -18,14 +20,14 @@ const client = new Client({
 client.on('ready', (c) => {
     console.log(`${c.user.tag} is online.`);
 
-   /* setInterval(()=>{
-        var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
-        rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
-        require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
-
+    setInterval(()=>{
         (async function() {
-            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) 
-            await sleep(500)
+            var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
+            await sleep(1000)
+            rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
+            await sleep(1000)
+            require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
+            await sleep(1000)
             const rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
             const newCount = [];
 
@@ -54,23 +56,20 @@ client.on('ready', (c) => {
                     }], 
                     status: 'online' 
                 });
-            }           
-        })()
-    },30000);*/
-
-    setInterval(()=>{
-        var rconGetChatBat = fs.createWriteStream("./rcon/rcon_GetChat.bat");
-        rconGetChatBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "GetChat">%~dp0rcon_GetChat.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_GetChat.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_GetChat.txt"');
-        require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_GetChat.bat') , function (){});
-        
-        (async function() {
-            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) 
+            }
             
-            await sleep(2000)
+            await sleep(1000)
+            var rconGetChatBat = fs.createWriteStream("./rcon/rcon_GetChat.bat");
+            await sleep(1000)
+            rconGetChatBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "GetChat">%~dp0rcon_GetChat.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_GetChat.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_GetChat.txt"');
+            await sleep(1000)
+            require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_GetChat.bat') , function (){});
+            await sleep(1000)
             const rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);;
             newChat = [];
 
             if(rconGetChat[0].trim() === 'Server received, But no response!!'){
+                 return
                 }else{
                 for (let i = 0; i < rconGetChat.length; i++) {                        
                     if(rconGetChat[i].length > 2){
@@ -78,72 +77,39 @@ client.on('ready', (c) => {
                         PlyrChat = PlyrChat.substring(0, PlyrChat.length - 0);
 
                         if(PlyrChat.includes("(From Discord)")){
+                            return
                         }else{
                             newChat.push(PlyrChat);
                         } 
                      }                   
                  }
-
-                const chatToString = newChat.toString();
                 
-                if(chatToString === 'No Players Connected'){
-                }else{
+                const chatToString = newChat.toString();
                 const gameChatEmbed = new EmbedBuilder()
                 .addFields({name: 'GAME CHAT:', value: (`${chatToString}`)})
                 .setColor(0x00e8ff)
                 client.channels.cache.get((process.env.Chat_Channel_ID)).send({embeds: [gameChatEmbed]});
-                }
-            } 
-            
-            await sleep(2000)
-            var rconStatusBat = es.createWriteStream("./rcon/rcon_BotStatus.bat");
-            rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
-            require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
-            
-            await sleep(2000)
-            const rconPlayerCnt = es.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
-            const newCount = [];
-
-            if(rconPlayerCnt[0].trim() === 'No Players Connected'){
-                client.user.setPresence({ 
-                    activities: [{ 
-                        name: '0/'+(process.env.ServerSlots), 
-                        type: ActivityType.Playing,  
-                    }], 
-                    status: 'online' 
-                });
-            }else{
-                for (let i = 0; i < rconPlayerCnt.length; i++) {                        
-                    if(rconPlayerCnt[i].length < 20){
-                        if(rconPlayerCnt[i].length > 2){
-                            let PlyrCount = rconPlayerCnt[i];
-                            PlyrCount = PlyrCount.substring(3, PlyrCount.length - 0);
-                            newCount.push(PlyrCount); 
-                        }                   
-                    }                      
-                }
-                client.user.setPresence({ 
-                    activities: [{ 
-                        name: (newCount.length)+'/'+(process.env.ServerSlots), 
-                        type: ActivityType.Playing,  
-                    }], 
-                    status: 'online' 
-                });
             }
-        })()
-    },3000);
-})   
+        })();
+    },10000);
+});
 
 client.on('messageCreate', (chatMessage) => {
-    if (chatMessage.author.bot){
-        return
-    }else{
-        var message = (chatMessage.content);
-        var sender = (chatMessage.author.username);
-        var messageToSend = (`(From Discord) ${sender}: ${message}`);
-        var rconSendChat = fs.createWriteStream("./rcon/rcon_SendChat.bat");
-        rconSendChat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat '+(messageToSend)+'">%~dp0rcon_SendChat.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_SendChat.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_SendChat.txt"');
-        require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_SendChat.bat') , function (){});
+    if(chatMessage.channelId === (process.env.Chat_Channel_ID)){
+        if (chatMessage.author.bot){
+            return
+        }else{
+            (async function() {
+                var message = (chatMessage.content);
+                var sender = (chatMessage.author.username);
+                var messageToSend = (`(From Discord) ${sender}: ${message}`);
+                var rconSendChat = fs.createWriteStream("./rcon/rcon_SendChat.bat");
+                await sleep(1000)
+                rconSendChat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat '+(messageToSend)+'">%~dp0rcon_SendChat.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_SendChat.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_SendChat.txt"');
+                await sleep(1000)
+                require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_SendChat.bat') , function (){});
+            })();
+        }
     }
 })
 
@@ -189,14 +155,14 @@ client.on('interactionCreate', (interaction) =>{
     }
 
     if (interaction.commandName === 'asa_the_island_players') {
-        var rconBatch = gs.createWriteStream("./rcon/rcon_ASAPlayers.bat");
-        rconBatch.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_ASAPlayers.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_ASAPlayers.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_ASAPlayers.txt"');
-        require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_ASAPlayers.bat') , function (){});
-        
         (async function() {
-            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) 
+            var rconBatch = fs.createWriteStream("./rcon/rcon_ASAPlayers.bat");
             await sleep(500)
-            const playerList = gs.readFileSync('./rcon/rcon_ASAPlayers.txt', 'utf-8').split(/[,,\n]/);
+            rconBatch.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_ASAPlayers.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_ASAPlayers.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_ASAPlayers.txt"');
+            await sleep(500)
+            require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_ASAPlayers.bat') , function (){});    
+            await sleep(500)
+            const playerList = fs.readFileSync('./rcon/rcon_ASAPlayers.txt', 'utf-8').split(/[,,\n]/);
             const newPlayerList = [];
             
             if(playerList[0].trim() === 'No Players Connected'){
