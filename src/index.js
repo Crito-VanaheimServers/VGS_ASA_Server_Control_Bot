@@ -51,7 +51,7 @@ client.on('ready', (c) => {
                 const rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
                 const newCount = [];
                 
-                if(!rconPlayerCnt === ''){
+                if(rconPlayerCnt !== ""){
                     if(rconPlayerCnt[0].trim() === 'No Players Connected'){
                         client.user.setPresence({ 
                             activities: [{ 
@@ -91,7 +91,7 @@ client.on('ready', (c) => {
                 const rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);;
                 newChat = [];
                 
-                if(!rconGetChat === ''){
+                if(rconGetChat !== ""){
                     if(rconGetChat[0].trim() === 'Server received, But no response!!'){
                         return
                     }else{
@@ -190,7 +190,7 @@ client.on('interactionCreate', (interaction) =>{
             const playerList = fs.readFileSync('./rcon/rcon_ASAPlayers.txt', 'utf-8').split(/[,,\n]/);
             const newPlayerList = [];
             
-            if(!playerList === ''){
+            if(playerList !== ""){
                 if(playerList[0].trim() === 'No Players Connected'){
                     const plListEmbed = new EmbedBuilder()
                     .setTitle((process.env.ASA_EmbedTitle))
