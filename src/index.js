@@ -8,6 +8,26 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+const path = require('path');
+const { readdir } = require('fs/promises');
+  
+const findByName = async (dir, name) => {
+    const matchedFiles = [];
+  
+    const files = await readdir(dir);
+  
+      for (const file of files) {
+          // Method 1:
+          const filename = path.parse(file).name;
+  
+          if (filename === name) {
+              matchedFiles.push(file);
+          }
+      }
+  
+      return matchedFiles;
+  };
+
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
@@ -22,74 +42,79 @@ client.on('ready', (c) => {
 
     setInterval(()=>{
         (async function() {
-            var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
-            await sleep(1000)
-            rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
-            await sleep(1000)
-            require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
-            await sleep(1000)
-            const rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
-            const newCount = [];
-
-            if(rconPlayerCnt[0].trim() === 'No Players Connected'){
-                client.user.setPresence({ 
-                    activities: [{ 
-                        name: '0/'+(process.env.ServerSlots), 
-                        type: ActivityType.Playing,  
-                    }], 
-                    status: 'online' 
-                });
-            }else{
-                for (let i = 0; i < rconPlayerCnt.length; i++) {                        
-                    if(rconPlayerCnt[i].length < 20){
-                        if(rconPlayerCnt[i].length > 2){
-                            let PlyrCount = rconPlayerCnt[i];
-                            PlyrCount = PlyrCount.substring(3, PlyrCount.length - 0);
-                            newCount.push(PlyrCount); 
-                        }                   
-                    }                      
-                }
-                client.user.setPresence({ 
-                    activities: [{ 
-                        name: (newCount.length)+'/'+(process.env.ServerSlots), 
-                        type: ActivityType.Playing,  
-                    }], 
-                    status: 'online' 
-                });
-            }
-            
-            await sleep(1000)
-            var rconGetChatBat = fs.createWriteStream("./rcon/rcon_GetChat.bat");
-            await sleep(1000)
-            rconGetChatBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "GetChat">%~dp0rcon_GetChat.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_GetChat.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_GetChat.txt"');
-            await sleep(1000)
-            require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_GetChat.bat') , function (){});
-            await sleep(1000)
-            const rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);;
-            newChat = [];
-
-            if(rconGetChat[0].trim() === 'Server received, But no response!!'){
-                 return
-                }else{
-                for (let i = 0; i < rconGetChat.length; i++) {                        
-                    if(rconGetChat[i].length > 2){
-                        let PlyrChat = rconGetChat[i];
-                        PlyrChat = PlyrChat.substring(0, PlyrChat.length - 0);
-
-                        if(PlyrChat.includes("(From Discord)")){
-                            return
-                        }else{
-                            newChat.push(PlyrChat);
-                        } 
-                     }                   
-                 }
+                var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
+                await sleep(1000)
+                rconStatusBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"');
+                await sleep(1000)
+                require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
+                await sleep(1000)
+                const rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
+                const newCount = [];
                 
-                const chatToString = newChat.toString();
-                const gameChatEmbed = new EmbedBuilder()
-                .addFields({name: 'GAME CHAT:', value: (`${chatToString}`)})
-                .setColor(0x00e8ff)
-                client.channels.cache.get((process.env.Chat_Channel_ID)).send({embeds: [gameChatEmbed]});
-            }
+                if(!rconPlayerCnt === ''){
+                    if(rconPlayerCnt[0].trim() === 'No Players Connected'){
+                        client.user.setPresence({ 
+                            activities: [{ 
+                                name: '0/'+(process.env.ServerSlots), 
+                                type: ActivityType.Playing,  
+                            }], 
+                            status: 'online' 
+                        });
+                    }else{
+                        for (let i = 0; i < rconPlayerCnt.length; i++) {                        
+                            if(rconPlayerCnt[i].length < 20){
+                                if(rconPlayerCnt[i].length > 2){
+                                    let PlyrCount = rconPlayerCnt[i];
+                                    PlyrCount = PlyrCount.substring(3, PlyrCount.length - 0);
+                                    newCount.push(PlyrCount); 
+                                }                   
+                            }                      
+                        }
+                        client.user.setPresence({ 
+                            activities: [{ 
+                                name: (newCount.length)+'/'+(process.env.ServerSlots), 
+                                type: ActivityType.Playing,  
+                            }], 
+                            status: 'online' 
+                        });
+                    }
+                }
+
+                await sleep(1000)
+                var rconGetChatBat = fs.createWriteStream("./rcon/rcon_GetChat.bat");
+                await sleep(1000)
+                rconGetChatBat.write('%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "GetChat">%~dp0rcon_GetChat.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_GetChat.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_GetChat.txt"');
+                await sleep(1000)
+                require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_GetChat.bat') , function (){});
+                await sleep(1000)
+
+                const rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);;
+                newChat = [];
+                
+                if(!rconGetChat === ''){
+                    if(rconGetChat[0].trim() === 'Server received, But no response!!'){
+                        return
+                    }else{
+                        for (let i = 0; i < rconGetChat.length; i++) {                        
+                            if(rconGetChat[i].length > 2){
+                                let PlyrChat = rconGetChat[i];
+                                PlyrChat = PlyrChat.substring(0, PlyrChat.length - 0);
+
+                                if(PlyrChat.includes("(From Discord)")){
+                                    return
+                                }else{
+                                    newChat.push(PlyrChat);
+                                } 
+                            }                   
+                        }
+                
+                        const chatToString = newChat.toString();
+                        const gameChatEmbed = new EmbedBuilder()
+                        .addFields({name: 'GAME CHAT:', value: (`${chatToString}`)})
+                        .setColor(0x00e8ff)
+                        client.channels.cache.get((process.env.Chat_Channel_ID)).send({embeds: [gameChatEmbed]});
+                    }
+                }
         })();
     },10000);
 });
@@ -165,29 +190,31 @@ client.on('interactionCreate', (interaction) =>{
             const playerList = fs.readFileSync('./rcon/rcon_ASAPlayers.txt', 'utf-8').split(/[,,\n]/);
             const newPlayerList = [];
             
-            if(playerList[0].trim() === 'No Players Connected'){
-                const plListEmbed = new EmbedBuilder()
-                .setTitle((process.env.ASA_EmbedTitle))
-                .addFields({name: 'ONLINE PLAYERS:', value: (`${(playerList[0])}`)})
-                .setColor(0xff0000)
-                interaction.reply({embeds: [plListEmbed]});
-            }else{
-                for (let i = 0; i < playerList.length; i++) {                        
-                    if(playerList[i].length < 20){
-                        let player = playerList[i];
-                        player = player.substring(3, player.length - 0);
-                        newPlayerList.push(player);                    
+            if(!playerList === ''){
+                if(playerList[0].trim() === 'No Players Connected'){
+                    const plListEmbed = new EmbedBuilder()
+                    .setTitle((process.env.ASA_EmbedTitle))
+                    .addFields({name: 'ONLINE PLAYERS:', value: (`${(playerList[0])}`)})
+                    .setColor(0xff0000)
+                    interaction.reply({embeds: [plListEmbed]});
+                }else{
+                    for (let i = 0; i < playerList.length; i++) {                        
+                        if(playerList[i].length < 20){
+                            let player = playerList[i];
+                            player = player.substring(3, player.length - 0);
+                            newPlayerList.push(player);                    
+                        }
                     }
-                }
 
-                const playerToString = newPlayerList.toString();
+                    const playerToString = newPlayerList.toString();
                 
-                const plListEmbed = new EmbedBuilder()
-                .setTitle((process.env.ASA_EmbedTitle))
-                .addFields({name: 'ONLINE PLAYERS:', value: (`${playerToString.split(',').join("\r\n")}`)})
-                .setColor(0x00e8ff)
-                interaction.reply({embeds: [plListEmbed]});
-            }
+                    const plListEmbed = new EmbedBuilder()
+                    .setTitle((process.env.ASA_EmbedTitle))
+                    .addFields({name: 'ONLINE PLAYERS:', value: (`${playerToString.split(',').join("\r\n")}`)})
+                    .setColor(0x00e8ff)
+                    interaction.reply({embeds: [plListEmbed]});
+                }
+            }    
         })()     
     }
  })
