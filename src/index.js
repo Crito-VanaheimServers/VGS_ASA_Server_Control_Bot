@@ -5,28 +5,8 @@ const {Client, IntentsBitField, EmbedBuilder, ActivityType} = require ('discord.
 const fs = require('fs');
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-const path = require('path');
-const { readdir } = require('fs/promises');
-  
-const findByName = async (dir, name) => {
-    const matchedFiles = [];
-  
-    const files = await readdir(dir);
-  
-      for (const file of files) {
-          // Method 1:
-          const filename = path.parse(file).name;
-  
-          if (filename === name) {
-              matchedFiles.push(file);
-          }
-      }
-  
-      return matchedFiles;
-  };
+return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const client = new Client({
     intents: [
@@ -51,7 +31,7 @@ client.on('ready', (c) => {
                 const rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
                 const newCount = [];
                 
-                if(rconPlayerCnt !== ""){
+                
                     if(rconPlayerCnt[0].trim() === 'No Players Connected'){
                         client.user.setPresence({ 
                             activities: [{ 
@@ -78,8 +58,7 @@ client.on('ready', (c) => {
                             status: 'online' 
                         });
                     }
-                }
-
+               
                 await sleep(1000)
                 var rconGetChatBat = fs.createWriteStream("./rcon/rcon_GetChat.bat");
                 await sleep(1000)
@@ -91,7 +70,6 @@ client.on('ready', (c) => {
                 const rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);;
                 newChat = [];
                 
-                if(rconGetChat !== ""){
                     if(rconGetChat[0].trim() === 'Server received, But no response!!'){
                         return
                     }else{
@@ -114,7 +92,7 @@ client.on('ready', (c) => {
                         .setColor(0x00e8ff)
                         client.channels.cache.get((process.env.Chat_Channel_ID)).send({embeds: [gameChatEmbed]});
                     }
-                }
+                
         })();
     },10000);
 });
@@ -168,7 +146,6 @@ client.on('interactionCreate', (interaction) =>{
                 interaction.reply('Restarting ASA Server!');
 
                 (async function() {
-                    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
                     require('child_process').exec('cmd /c start "" cmd /c' + (process.env.ASA_Start_bat), function (){});
                     await sleep(20000)
                     client.channels.cache.get((process.env.Admin_Channel_ID)).send(`Starting ASA Server!`)
@@ -190,7 +167,6 @@ client.on('interactionCreate', (interaction) =>{
             const playerList = fs.readFileSync('./rcon/rcon_ASAPlayers.txt', 'utf-8').split(/[,,\n]/);
             const newPlayerList = [];
             
-            if(playerList !== ""){
                 if(playerList[0].trim() === 'No Players Connected'){
                     const plListEmbed = new EmbedBuilder()
                     .setTitle((process.env.ASA_EmbedTitle))
@@ -205,7 +181,7 @@ client.on('interactionCreate', (interaction) =>{
                             newPlayerList.push(player);                    
                         }
                     }
-
+                    
                     const playerToString = newPlayerList.toString();
                 
                     const plListEmbed = new EmbedBuilder()
@@ -213,8 +189,7 @@ client.on('interactionCreate', (interaction) =>{
                     .addFields({name: 'ONLINE PLAYERS:', value: (`${playerToString.split(',').join("\r\n")}`)})
                     .setColor(0x00e8ff)
                     interaction.reply({embeds: [plListEmbed]});
-                }
-            }    
+                }  
         })()     
     }
  })
