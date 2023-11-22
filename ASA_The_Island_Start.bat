@@ -33,10 +33,10 @@ set GameserverPath=C:\VGS_Server_Files\ARK_Survival_Ascended\The_Island
 set STEAMPATH=C:\VGS_Server_Files\Steam_CMD_Files
 
 ::Set the start up command line for your ark server. If you use quotes in your command line this may not work.
-set CommandLine=TheIsland_WP?RCONEnabled=True?RCONPort=27020?listen?QueryPort=27015?SessionName="VGS Island PVE Boosted"?MaxPlayers=70?ServerAdminPassword=yourpasswordhere -NoBattlEye -automanagedmods -Mods=930404,928677,928621,929420,930128,931372,931877 -crossplay -webalarm -nosteamclient -game -server -log 
+set CommandLine=TheIsland_WP?RCONEnabled=True?RCONPort=27020?listen?QueryPort=27015?SessionName="VGS Island PVE Boosted"?MaxPlayers=70?ServerAdminPassword=Charlie2012 -NoBattlEye -automanagedmods -Mods=928708,930404,928677,928621,929420,930128,931372,931877,928597,929543,929038,936887,928818 -crossplay -webalarm -nosteamclient -game -server -log 
 
 ::set your password you use to log in as admin in game here for rcon to work with the bot
-set adminPassword=yourpasswordhere
+set adminPassword=Charlie2012
 
 ::The next 2 settings should not need to be changed but if you need to they are here.
 ::The bot should run on same machine as server for everything to work correctly.
@@ -82,6 +82,9 @@ set warningHour=0%calWH%
 if %restartHour% EQU 00 set warningHour=23
 timeout 5 >nul
 powershell -window minimized -command ""
+timeout 90 >nul
+node src/register-commands.js
+node src/index.js
 goto CheckServerRunning
 
 :CheckServerRunning

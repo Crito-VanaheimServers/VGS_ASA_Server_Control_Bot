@@ -7,7 +7,7 @@ SETLOCAL EnableExtensions enabledelayedexpansion
 set ServerEXE=ArkAscendedServer.exe
 
 ::This should be set to the name of the start .bat file used to start the server
-set ServerMonitor=ASA_Island_Start.bat
+set ServerMonitor=ASA_The_Island_Start.bat
 
 ::This should match the title of the monitor. Title of monitor is set in the start bat file where word TITLE is followed by a name.
 set MonitorTitle=ASA The Island Server Monitor
@@ -16,7 +16,7 @@ set MonitorTitle=ASA The Island Server Monitor
 set GameName=ASA The Island
 
 ::set your password you use to log in as admin in game here for rcon to work with the bot
-set adminPassword=yourpasswordhere
+set adminPassword=Charlie2012
 
 ::The next 2 settings should not need to be changed but if you need to they are here.
 ::The bot should run on same machine as server for everything to work correctly.
@@ -42,8 +42,6 @@ FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %ServerEXE%"') DO IF %%x == %Serv
 :KillGameServer
 timeout 1 >nul
 "%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "saveworld"
-timeout 10 >nul
-"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "DoExit"
 echo.
 goto CheckMonitorRunning
 
@@ -56,7 +54,8 @@ FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %ServerMonitor%"') DO IF %%x == %
 FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %ServerMonitor%"') DO IF %%x == %ServerMonitor% goto KillMonitor
 
 :KillMonitor
-timeout 1 >nul
+timeout 10 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "DoExit"
 Taskkill /F /FI "WINDOWTITLE eq %MonitorTitle%" /T
 echo.
 timeout 3 >nul
