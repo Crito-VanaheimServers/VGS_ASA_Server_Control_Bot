@@ -36,7 +36,7 @@ Bot controls Ark Survival Ascended Server. Designate a specific channel for admi
 permissions to that channel can usE slash commands to start, Stop, Restart your server from discord
 if needed keeping your server files safe.
 
-COMMANDS:
+COMMANDS
     Start command: Starts server if it is not running
                
     Stop command: will safely save the world and shut down server then shut down the server monitor.
@@ -54,7 +54,7 @@ COMMANDS:
     Cancel warning command: can be used to stop the restart with warning command or the shutdown with warning command so server will
                             not perform those actions.
 
-SERVER MONITOR:
+SERVER MONITOR
     The server monitor is needed if you want your server to perform an auto restart each day.
 
     This monitors the time and when it reaches 30 minutes prior to your desired restart time it will start sending
@@ -69,7 +69,7 @@ SERVER MONITOR:
     If you accidently close your monitor than you will have to shut server down and run the start file again
     to start server to get the monitor back up.
 
-EXTRA FEATURES:
+EXTRA FEATURES
     Bot status displays how many players are connected to server vs max player slots available.
 
     Discord useres can run slash command in discord to see a list of currently connected players.
