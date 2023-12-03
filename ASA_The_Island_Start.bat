@@ -1,7 +1,10 @@
 @echo off
 Taskkill /F /FI "WINDOWTITLE eq ASA The Island Server Monitor" /T
-cls
+Taskkill /F /FI "WINDOWTITLE eq ASA Island Server Controller Bot" /T
+timeout 1 > NUL
+start /min %~dp0src/ASAIsland_Server_Controller_Start.bat
 COLOR 0a
+
 TITLE ASA The Island Server Monitor
 SETLOCAL EnableExtensions enabledelayedexpansion
 
@@ -24,10 +27,10 @@ set GameserverPath=C:\VGS_Server_Files\ARK_Survival_Ascended\The_Island
 set STEAMPATH=C:\VGS_Server_Files\Steam_CMD_Files
 
 ::Set the start up command line for your ark server. If you use quotes in your command line this may not work.
-set CommandLine=TheIsland_WP?listen?Port=7783?QueryPort=27018?RCONPort=27026?RCONEnabled=True?SessionName="VGS TEST"?MaxPlayers=70?ServerAdminPassword=YourPasswordHere -NoBattlEye -automanagedmods -Mods=928708,930404,928677,928621,929420,930128,933099,931877,929543,929038,936887,928818,929713 -crossplay -webalarm -servergamelog -game -server -log 
+set CommandLine=TheIsland_WP?listen?Port=7777?QueryPort=27015?RCONPort=27020?RCONEnabled=True?Maxpersonaltameddinos=3000?SessionName="VGS Island PVE Boosted"?MaxPlayers=70?ServerAdminPassword=Charlie2012 -NoBattlEye -automanagedmods -Mods=928708,930404,928621,929420,930128,933099,931877,929543,929038,928818,929713 -crossplay -webalarm -servergamelog -game -server -log 
 
 ::set your password you use to log in as admin in game here for rcon to work with the bot
-set adminPassword=YourPasswordHere
+set adminPassword=Charlie2012
 
 ::The next 2 settings should not need to be changed but if you need to they are here.
 ::The bot should run on same machine as server for everything to work correctly.
@@ -41,39 +44,43 @@ set rconPort=27020
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::not very important just visual display of name on monitor set to whatever you want
 set ServerEXE=ArkAscendedServer.exe
-
+set GameServerBRANCH=2430930
+set BranchInfo=%~dp0rcon\%GameServerBRANCH%
+set BranchInfoNew=%BranchInfo%-new
 set GameName=ASA The Island
-
 set /A restartCounter=0
 
+set /a calWH=%restartHour%-1
+set warningHour=0%calWH%
+if %restartHour% EQU 00 set warningHour=23
+goto SafetyCheck
+
 :SafetyCheck
+@cls
 echo Checking if %GameName% server is running
 echo.
-FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %ServerEXE%"') DO IF %%x == %ServerEXE% goto SafetyShutdown
-echo %GameName% server not found
+FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %ServerEXE%"') DO IF %%x == %ServerEXE% goto ServerRunning
+echo %GameName% server not found, going to check for updates before server start.
 echo.
 goto ServerUpdate
 
-:SafetyShutdown
-echo %GameName% server is running
+:ServerRunning
+set currHour=%TIME:~0,2%
+IF "%currHour:~0,1%" == " " set currHour=0%currHour:~1,1%
+set currMinute=%TIME:~3,2%
+set currSeconds=%TIME:~6,2%
 echo.
-timeout 1 >nul
-echo %GameName% saving world
-"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "saveworld"
-echo.
-timeout 10 >nul
-echo Shutting %GameName% server down
-"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "DoExit"
-timeout 1 >nul
-echo.
-goto ServerUpdate
+echo %GameName% server is already running, current time is %currHour%:%currMinute%:%currSeconds%
+echo %GameName% server will auto restart at %restartHour%:00:00
+echo %GameName% server total restarts since this monitor has been running %restartCounter%
+timeout 5 >nul
+powershell -window minimized -command ""
+goto CheckServerRunning
+
 
 :ServerUpdate
 cls
 set STEAMLOGIN=anonymous
-set GameServerBRANCH=2430930
-set BranchInfo=%~dp0rcon\%GameServerBRANCH%
-set BranchInfoNew=%BranchInfo%-new
 
 echo.
 echo     You are about to update your %GameName% server
@@ -91,21 +98,14 @@ goto StartServer
 
 :StartServer
 start /min %GameserverPath%\ShooterGame\Binaries\Win64\%ServerEXE% %CommandLine%
-
 set startHour=%TIME:~0,2%
 IF "%startHour:~0,1%" == " " set startHour=0%startHour:~1,1%
-
 set startMinute=%TIME:~3,2%
-
 set startSeconds=%TIME:~6,2%
-
 echo.
 echo %GameName% server was started at %startHour%:%startMinute%:%startSeconds%
 echo %GameName% server will auto restart at %restartHour%:00:00
-echo %GameName% server total restarts %restartCounter%
-set /a calWH=%restartHour%-1
-set warningHour=0%calWH%
-if %restartHour% EQU 00 set warningHour=23
+echo %GameName% server total restarts since this monitor has been running %restartCounter%
 timeout 5 >nul
 powershell -window minimized -command ""
 goto CheckServerRunning
@@ -141,6 +141,8 @@ if %timeHour% EQU %restartHour% if %timeMinute% EQU 00 if %timeSeconds% lss 20 g
 CALL curl https://api.steamcmd.net/v1/info/%GameServerBRANCH% --silent --output %BranchInfoNew%
 
 IF NOT EXIST %BranchInfo% CALL curl https://api.steamcmd.net/v1/info/%GameServerBRANCH% --silent --output %BranchInfo%
+
+timeout 1 >nul
 
 fc /b %BranchInfo% %BranchInfoNew% >nul
 if errorlevel 1 goto NeedUpdate
