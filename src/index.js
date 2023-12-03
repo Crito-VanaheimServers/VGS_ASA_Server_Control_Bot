@@ -313,7 +313,7 @@ client.on('interactionCreate', (interaction) =>{
                     await sleep(500);
                     require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/forcedStopWarn.bat') , function (){});    
 
-                    client.channels.cache.get((process.env.Admin_Channel_ID)).send(`Restarting ASA Server.`)
+                    client.channels.cache.get((process.env.Admin_Channel_ID)).send(`ASA Server stopped.`)
                 })()
             }else{
                 interaction.reply('ERROR: You just tried to run an admin command outside of an admin channel!'); 
@@ -327,7 +327,7 @@ client.on('interactionCreate', (interaction) =>{
                 (async function() {
                     var botRestart = fs.createWriteStream("./rcon/botRestart.bat");
                     await sleep(500);
-                    botRestart.write('Taskkill /F /FI "WINDOWTITLE eq ASA Island Server Controller Bot" /T\ntimeout 10 >nul\nstart /min ' + (process.env.Bot_Folder_Path) + '/ASAIsland_Server_Controller_Start.bat');
+                    botRestart.write('Taskkill /F /FI "WINDOWTITLE eq ASA Island Server Controller Bot" /T\ntimeout 10 >nul\nstart /min ' + (process.env.Bot_Folder_Path) + 'src/ASAIsland_Server_Controller_Start.bat');
                     await sleep(500);
                     restartCancel = fs.createWriteStream("./rcon/restartCancel.bat");
                     await sleep(500);
