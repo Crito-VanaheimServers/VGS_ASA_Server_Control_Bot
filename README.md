@@ -24,7 +24,7 @@ License:
     zlib/libpng License
 
 install video: 
-https://www.youtube.com/watch?v=7GXcJXDNKz8
+coming soon
 
 node.js download
 https://nodejs.org/en
@@ -60,14 +60,10 @@ SERVER MONITOR
     This monitors the time and when it reaches 30 minutes prior to your desired restart time it will start sending
     in game warnings to players chat so they have time to log off before world save and server restart.
 
-    It also monitors for server file updates and if it detects them it will send warnings in game 15 minutes before
-    restarting server for auto update of server files. Once the server is down it will apply the updates and bring
-    server back online.
+    If you close the monitor your server will still run but will not perform any restart.
 
-    If you close the monitor your server will still run but will not perform a restart and will not detect server file updates.
-
-    If you accidently close your monitor than you will have to shut server down and run the start file again
-    to start server to get the monitor back up.
+    If you accidently close your monitor than just run the ASA_The_Island_Start.bat again, If server is running this will not
+    do anything to server it will just restart monitor and the discord bot.
 
 EXTRA FEATURES
     Bot status displays how many players are connected to server vs max player slots available.
