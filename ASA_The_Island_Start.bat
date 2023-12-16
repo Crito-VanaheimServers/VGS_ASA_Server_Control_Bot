@@ -1,5 +1,5 @@
 @echo off
-Taskkill /F /FI "WINDOWTITLE eq ASA The Island Server Monitor" /T
+Taskkill /F /FI "WINDOWTITLE eq ASA The Island Server Monitor"
 Taskkill /F /FI "WINDOWTITLE eq ASA Island Server Controller Bot" /T
 timeout 1 > NUL
 start /min %~dp0src/ASAIsland_Server_Controller_Start.bat
@@ -18,6 +18,11 @@ SETLOCAL EnableExtensions enabledelayedexpansion
 ::Change this to the hour you want server to restart. military (12=12pm 00=12am) https://www.ontheclock.com/convert-military-24-hour-time.aspx
 set restartHour=00
 
+::If your using Server API then set this to AsaApiLoader.exe
+::If you have no idea or you are NOT using Server API than set to ArkAscendedServer.exe
+::info about server API found here https://gameservershub.com/forums/resources/categories/asa-official-resources.111/
+set EXELauncher=ArkAscendedServer.exe
+
 ::Set file path to the folder your server files are located or will be located.
 ::If your folder names have spaces this will not work I would suggest going and putting _ for spaces in folder names.
 set GameserverPath=C:\VGS_Server_Files\ARK_Survival_Ascended\The_Island
@@ -27,7 +32,7 @@ set GameserverPath=C:\VGS_Server_Files\ARK_Survival_Ascended\The_Island
 set STEAMPATH=C:\VGS_Server_Files\Steam_CMD_Files
 
 ::Set the start up command line for your ark server. If you use quotes in your command line this may not work.
-set CommandLine=TheIsland_WP?listen?Port=7777?QueryPort=27015?RCONPort=27020?RCONEnabled=True?SessionName="Island"?MaxPlayers=70?ServerAdminPassword=YourPasswordHere -NoBattlEye -automanagedmods -Mods=928708,930404,928621,929420,930128,933099,931877,929543,929038,928818,929713 -crossplay -webalarm -servergamelog -game -server -log 
+set CommandLine=TheIsland_WP?listen?Port=7777?QueryPort=27015?RCONPort=27020?RCONEnabled=True?SessionName="Island PVE Boosted"?MaxPlayers=70?ServerAdminPassword=YourPasswordHere -NoBattlEye -automanagedmods -Mods=927083,928708,930404,928621,929420,930128,933099,931877,929543,929038,928818,929713,931047,931874 -crossplay -servergamelog -game -server -log 
 
 ::set your password you use to log in as admin in game here for rcon to work with the bot
 set adminPassword=YourPasswordHere
@@ -42,8 +47,11 @@ set rconPort=27020
 
 ::DONT TOUCH ANYTHING BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING OR YOU WILL BREAK THINGS!!
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::not very important just visual display of name on monitor set to whatever you want
 set ServerEXE=ArkAscendedServer.exe
 set GameServerBRANCH=2430930
+set BranchInfo=%~dp0rcon\%GameServerBRANCH%
+set BranchInfoNew=%BranchInfo%-new
 set GameName=ASA The Island
 set /A restartCounter=0
 
@@ -93,7 +101,7 @@ timeout 5 > NUL
 goto StartServer
 
 :StartServer
-start /min %GameserverPath%\ShooterGame\Binaries\Win64\%ServerEXE% %CommandLine%
+start /min %GameserverPath%\ShooterGame\Binaries\Win64\%EXELauncher% %CommandLine%
 set startHour=%TIME:~0,2%
 IF "%startHour:~0,1%" == " " set startHour=0%startHour:~1,1%
 set startMinute=%TIME:~3,2%
@@ -134,8 +142,38 @@ if %timeHour% EQU %warningHour% if %timeMinute% EQU 59 if %timeSeconds% gtr 20 i
 
 if %timeHour% EQU %restartHour% if %timeMinute% EQU 00 if %timeSeconds% lss 20 goto ExecuteRestart
 	
+::CALL curl https://api.steamcmd.net/v1/info/%GameServerBRANCH% --silent --output %BranchInfoNew%
+
+::IF NOT EXIST %BranchInfo% CALL curl https://api.steamcmd.net/v1/info/%GameServerBRANCH% --silent --output %BranchInfo%
+
+timeout 1 >nul
+
+::fc /b %BranchInfo% %BranchInfoNew% >nul
+::if errorlevel 1 goto NeedUpdate
+::DEL %BranchInfoNew%
 goto CheckServerRunning
 
+:NeedUpdate
+MOVE %BranchInfoNew% %BranchInfo% >nul
+echo Update required, Sending restart warning before auto update!
+timeout 1 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "ServerChat ****SERVER AUTO UPDATE RESTART 15 MINUTES****"
+timeout 300 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "ServerChat ****SERVER AUTO UPDATE RESTART 10 MINUTES****"
+timeout 300 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "ServerChat ****SERVER AUTO UPDATE RESTART 5 MINUTES****"
+timeout 60 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "ServerChat ****SERVER AUTO UPDATE RESTART 4 MINUTES****"
+timeout 60 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "ServerChat ****SERVER AUTO UPDATE RESTART 3 MINUTES****"
+timeout 60 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "ServerChat ****SERVER AUTO UPDATE RESTART 2 MINUTES****"
+timeout 60 >nul
+"%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "ServerChat ****SERVER AUTO UPDATE RESTART 1 MINUTE (Saving World)****"
+timeout 60 >nul
+"%~dp0rcon/mcrcon.exe" -H 127.0.0.1 -P 27020 -p %adminPassword% "saveworld"
+goto ExecuteRestart
+	
 :ExecuteRestart
 timeout 1 >nul
 "%~dp0rcon/mcrcon.exe" -H %serverIP% -P %rconPort% -p %adminPassword% "DoExit"
