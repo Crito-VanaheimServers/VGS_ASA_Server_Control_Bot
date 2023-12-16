@@ -20,6 +20,10 @@ the work of this project helped
 get it to where it is.
 https://discord.gg/stompinggrounds
 
+Thanks to:
+Server API team for allowing bot to work with it
+https://gameservershub.com/forums/resources/categories/asa-official-resources.111/
+
 License:
     zlib/libpng License
 
@@ -35,6 +39,8 @@ https://discord.com/developers/applications
 Bot controls Ark Survival Ascended Server. Designate a specific channel for admin use only so users with
 permissions to that channel can usE slash commands to start, Stop, Restart your server from discord
 if needed keeping your server files safe.
+
+This works with Server API if you use it. In ASA_The_Island_Start.bat is provided line for specifying the exe to use.
 
 COMMANDS
     Start command: Starts server if it is not running
