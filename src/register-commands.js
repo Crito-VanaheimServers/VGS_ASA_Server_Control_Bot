@@ -34,6 +34,10 @@ const commands = [
                     {
                         name: 'shutdown with warning',
                         value: "stop_warning",
+                    },
+                    {
+                        name: 'wild dino wipe',
+                        value: "dinowipe",
                     }
                 ],
                 required: true,
