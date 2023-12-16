@@ -60,6 +60,8 @@ COMMANDS
     Cancel warning command: can be used to stop the restart with warning command or the shutdown with warning command so server will
                             not perform those actions.
 
+    wild dino wipe command: Use to destroy all wild dions on the map so new/fresh dinos can start spawning in.
+
 SERVER MONITOR
     The server monitor is needed if you want your server to perform an auto restart each day.
 
