@@ -47,7 +47,6 @@ set rconPort=27020
 
 ::DONT TOUCH ANYTHING BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING OR YOU WILL BREAK THINGS!!
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-::not very important just visual display of name on monitor set to whatever you want
 set ServerEXE=ArkAscendedServer.exe
 set GameServerBRANCH=2430930
 set BranchInfo=%~dp0rcon\%GameServerBRANCH%
