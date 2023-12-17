@@ -36,6 +36,8 @@ https://nodejs.org/en
 Discord developer site
 https://discord.com/developers/applications
 
+DOES NOT WORK WITH SERVERS RUN FROM NITRADO
+
 Bot controls Ark Survival Ascended Server. Designate a specific channel for admin use only so users with
 permissions to that channel can usE slash commands to start, Stop, Restart your server from discord
 if needed keeping your server files safe.
