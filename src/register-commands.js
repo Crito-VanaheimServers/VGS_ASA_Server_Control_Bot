@@ -3,6 +3,19 @@ const {REST, Routes, ApplicationCommandOptionType} = require ('discord.js');
 
 const commands = [
     {
+        name: 'asa_the_island_rcon',
+        description: 'Send RCON commands to server',
+        options: [
+            {
+                name: 'rcon-command',
+                description: 'RCON command to send to server',
+                type: ApplicationCommandOptionType.String,
+                required: true,
+            }
+        ]
+    },
+
+    {
         name: 'asa_the_island_server',
         description: 'Controls Ark Survival Ascended Island server',
         options: [
