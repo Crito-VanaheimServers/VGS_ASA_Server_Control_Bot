@@ -3,7 +3,7 @@
 VGS ASA Server Control Bot
 By Crito @Vanaheim Gaming Servers
 https://discord.gg/pxC7qSzQ8X
-v1.0 11/19/2023
+v1.1 12/20/2023
 
 donate to the project:
 https://www.paypal.com/paypalme/VanaheimServers
@@ -83,7 +83,9 @@ EXTRA FEATURES
     Designate a channel for game chat. The Bot will display any in game chat that is sent in global channel to this channel.
     Discord users can chat with players in game thru this channel without being in game.
 
-
+Change Notes:
+	12/20/23 Added slash command for admin channel to put in any rcon command and run it from the bot to server.
+ 
 ###########################	INSTALLATION INSTRUCTIONS	########################################
 
 PART 1:	Nodejs Installation
