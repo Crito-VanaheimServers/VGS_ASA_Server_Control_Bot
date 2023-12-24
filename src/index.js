@@ -32,22 +32,22 @@ client.on('ready', (c) => {
                 await sleep(500);
                 var serverStop = fs.createWriteStream("./rcon/serverStop.bat");
                 await sleep(500);
-                serverStop.write('@echo off\nTaskkill /F /FI "WINDOWTITLE eq ASA The Island Server Monitor"\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "saveworld"\ntimeout 20 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "DoExit"\nexit /b 0');
+                serverStop.write('@echo off\nTaskkill /F /FI "WINDOWTITLE eq ASA '+(process.env.Message_Tittle)+' Server Monitor"\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "saveworld"\ntimeout 20 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "DoExit"\nexit /b 0');
                 await sleep(500);
                 var forcedRestart = fs.createWriteStream("./rcon/forcedRestart.bat");
                 await sleep(500);
                 forcedRestart.write('@echo off\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "saveworld"\ntimeout 20 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "DoExit"\nexit /b 0');
                 var forcedRestartWarn = fs.createWriteStream("./rcon/forcedRestartWarn.bat");
                 await sleep(500);
-                forcedRestartWarn.write('@echo off\nCOLOR 0a\nTITLE ASA Island Warning Operation\nSETLOCAL EnableExtensions enabledelayedexpansion\necho Do not close this window it will auto close when operation is complete in 15 minutes\necho If this window is forced closed the server stop or restart will be canceled\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 15 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 10 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 5 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 4 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 3 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 2 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 1 MINUTE (Saving World)****"\ntimeout 10 > NUL\nstart /min %~dp0forcedRestart.bat\nexit /b 0');
+                forcedRestartWarn.write('@echo off\nCOLOR 0a\nTITLE ASA '+(process.env.Message_Tittle)+' warning operation\nSETLOCAL EnableExtensions enabledelayedexpansion\necho Do not close this window it will auto close when operation is complete in 15 minutes\necho If this window is forced closed the server stop or restart will be canceled\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED RESTART 15 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 15 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED RESTART 10 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 10 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED RESTART 5 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 5 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED RESTART 4 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 4 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED RESTART 3 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 3 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED RESTART 2 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 2 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED RESTART 1 MINUTE (Saving World)****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED RESTART 1 MINUTE (Saving World)****"\ntimeout 10 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "saveworld"\ntimeout 20 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "DoExit"\nexit /b 0');
                 await sleep(500);
                 var forcedStopWarn = fs.createWriteStream("./rcon/forcedStopWarn.bat");
                 await sleep(500);
-                forcedStopWarn.write('@echo off\nCOLOR 0a\nTITLE ASA Island Warning Operation\nSETLOCAL EnableExtensions enabledelayedexpansion\necho Do not close this window it will auto close when operation is complete in 15 minutes\necho If this window is forced closed the server stop or restart will be canceled\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 15 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 10 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 5 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 4 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 3 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 2 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 1 MINUTE (Saving World)****"\ntimeout 10 > NUL\nstart /min %~dp0serverStop.bat\nexit /b 0');
+                forcedStopWarn.write('@echo off\nCOLOR 0a\nTITLE ASA '+(process.env.Message_Tittle)+' warning operation\nSETLOCAL EnableExtensions enabledelayedexpansion\necho Do not close this window it will auto close when operation is complete in 15 minutes\necho If this window is forced closed the server stop or restart will be canceled\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED SERVER SHUTDOWN 15 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 15 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED SERVER SHUTDOWN 10 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 10 MINUTES****"\ntimeout 300 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED SERVER SHUTDOWN 5 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 5 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED SERVER SHUTDOWN 4 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 4 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED SERVER SHUTDOWN 3 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 3 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED SERVER SHUTDOWN 2 MINUTES****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 2 MINUTES****"\ntimeout 60 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN FORCED SERVER SHUTDOWN 1 MINUTE (Saving World)****"\ntimeout 1 > NUL\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN FORCED SERVER SHUTDOWN 1 MINUTE (Saving World)****"\ntimeout 10 > NUL\nTaskkill /F /FI "WINDOWTITLE eq ASA '+(process.env.Message_Tittle)+' Server Monitor"\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "DoExit"\nexit /b 0');
                 await sleep(500);
                 restartCancel = fs.createWriteStream("./rcon/restartCancel.bat");
                 await sleep(500);
-                restartCancel.write('@echo off\nTaskkill /F /FI "WINDOWTITLE eq ASA Island Warning Operation"\ntimeout 10 >nul\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN CANCELED FORCED RESTART/SHUTDOWN****"\nexit /b 0');
+                restartCancel.write('@echo off\nTaskkill /F /FI "WINDOWTITLE eq ASA '+(process.env.Message_Tittle)+' warning operation"\ntimeout 10 >nul\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "Broadcast ****ADMIN CANCELED FORCED RESTART/SHUTDOWN****"\ntimeout 1 >nul\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ServerChat ****ADMIN CANCELED FORCED RESTART/SHUTDOWN****"\n\nexit /b 0');
                 await sleep(500);
                 var dinoWipe = fs.createWriteStream("./rcon/dinoWipe.bat");
                 await sleep(500);
@@ -88,9 +88,10 @@ client.on('ready', (c) => {
 
              
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_GetChat.bat') , function (){});
-                await sleep(2000);
+                await sleep(2500);
                 var rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);
-                
+                await sleep(2500);
+
                     if(rconGetChat[0].trim() === 'Server received, But no response!!'){
                         return
                     }else{
@@ -140,22 +141,22 @@ client.on('interactionCreate', (interaction) =>{
     if(!interaction.isChatInputCommand()) return;
    
     //ASA Island Server
-    if (interaction.commandName === 'asa_the_island_server') {
+    if (interaction.commandName === (process.env.Map_name)+'_server') {
         const asaislandcontroller = interaction.options.get('control').value;
 
         if(asaislandcontroller === 'start'){
             if(interaction.channelId === (process.env.Admin_Channel_ID)){
                 var commandSender = interaction.user.globalName;
                 const sartcommand = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
-                .addFields({name: commandSender, value: "Starting ASA Server."})
+                .setTitle(process.env.Message_Tittle)
+                .addFields({name: commandSender, value: "Starting Server."})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [sartcommand]});
 
                 require('child_process').exec('cmd /c start "" cmd /c ASA_The_Island_Start.bat', function (){});       
             }else{
                 const sartcommand = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
                 .setColor(0xff0000)
                 interaction.reply({embeds: [sartcommand]});
@@ -166,14 +167,14 @@ client.on('interactionCreate', (interaction) =>{
             if(interaction.channelId === (process.env.Admin_Channel_ID)){
                 var commandSender = interaction.user.globalName;
                 const stopcommand = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
-                .addFields({name: commandSender, value: "Saving world and stopping ASA server."})
+                .setTitle(process.env.Message_Tittle)
+                .addFields({name: commandSender, value: "Saving world and stopping server."})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [stopcommand]});
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/serverStop.bat') , function (){});
             }else{
                 const stopcommand = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
                 .setColor(0xff0000)
                 interaction.reply({embeds: [stopcommand]});
@@ -184,14 +185,14 @@ client.on('interactionCreate', (interaction) =>{
             if(interaction.channelId === (process.env.Admin_Channel_ID)){
                 var commandSender = interaction.user.globalName;
                 const restartcommand = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
-                .addFields({name: commandSender, value: "Saving world and restarting ASA server."})
+                .setTitle(process.env.Message_Tittle)
+                .addFields({name: commandSender, value: "Saving world and restarting server."})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [restartcommand]});
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/forcedRestart.bat') , function (){});
             }else{
                 const restartcommand = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
                 .setColor(0xff0000)
                 interaction.reply({embeds: [restartcommand]});
@@ -202,14 +203,14 @@ client.on('interactionCreate', (interaction) =>{
             if(interaction.channelId === (process.env.Admin_Channel_ID)){
                 var commandSender = interaction.user.globalName;
                 const restartwarning = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: commandSender, value: "!!!!!!WARNING!!!!!!:\nDo not try to restart server during this process.\nTo stop this process run the bots cancel warning command.\nSending 15 minute restart warning in game."})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [restartwarning]});
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/forcedRestartWarn.bat') , function (){});    
                 }else{
                     const restartwarning = new EmbedBuilder()
-                    .setTitle('ASA THE ISLAND SERVER:')
+                    .setTitle(process.env.Message_Tittle)
                     .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
                     .setColor(0xff0000)
                     interaction.reply({embeds: [restartwarning]});
@@ -220,14 +221,14 @@ client.on('interactionCreate', (interaction) =>{
             if(interaction.channelId === (process.env.Admin_Channel_ID)){
                 var commandSender = interaction.user.globalName;
                 const stopwarning = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: commandSender, value: "!!!!!!WARNING!!!!!!:\nDo not try to restart server during this process.\nTo stop this process run the bots cancel warning command.\nSending 15 minute shutdown warning in game."})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [stopwarning]});
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/forcedStopWarn.bat') , function (){});    
             }else{
                 const stopwarning = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
                 .setColor(0xff0000)
                 interaction.reply({embeds: [stopwarning]});
@@ -238,14 +239,14 @@ client.on('interactionCreate', (interaction) =>{
             if(interaction.channelId === (process.env.Admin_Channel_ID)){
                 var commandSender = interaction.user.globalName;
                 const cancelwarning = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: commandSender, value: 'Suspending command operation.'})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [cancelwarning]}); 
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/restartCancel.bat') , function (){});    
             }else{
                 const cancelwarning = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
                 .setColor(0xff0000)
                 interaction.reply({embeds: [cancelwarning]});
@@ -256,14 +257,14 @@ client.on('interactionCreate', (interaction) =>{
             if(interaction.channelId === (process.env.Admin_Channel_ID)){
                 var commandSender = interaction.user.globalName;
                 const rcondinowipe = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: commandSender, value: 'Wiping all wild dinos from map.'})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [rcondinowipe]});
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/dinoWipe.bat') , function (){});    
             }else{
                 const rcondinowipe = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
                 .setColor(0xff0000)
                 interaction.reply({embeds: [rcondinowipe]});
@@ -271,7 +272,7 @@ client.on('interactionCreate', (interaction) =>{
         }
     }
 
-    if (interaction.commandName === 'asa_the_island_rcon') {
+    if (interaction.commandName === (process.env.Map_name)+'_rcon') {
         if(interaction.channelId === (process.env.Admin_Channel_ID)){
             (async function() {
                 const rconCommand = interaction.options.get('rcon-command').value;
@@ -285,21 +286,21 @@ client.on('interactionCreate', (interaction) =>{
                 await sleep(500);
                 var rconReturnInfo = fs.readFileSync('./rcon/rcon_ReturnInfo.txt', 'utf-8');
                 const rconEmbed = new EmbedBuilder()
-                .setTitle('ASA THE ISLAND SERVER:')
+                .setTitle(process.env.Message_Tittle)
                 .addFields({name: rconSender, value: 'RCON command:\n'+rconCommand+'\n'+rconReturnInfo})
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [rconEmbed]});
             })();
         }else{
             const rconEmbed = new EmbedBuilder()
-            .setTitle('ASA THE ISLAND SERVER:')
+            .setTitle(process.env.Message_Tittle)
             .addFields({name: 'ERROR:', value: 'You just tried to run an admin command outside of an admin channel!'})
             .setColor(0xff0000)
             interaction.reply({embeds: [rconEmbed]});
         }
     }
 
-    if (interaction.commandName === 'asa_the_island_players') {
+    if (interaction.commandName === (process.env.Map_name)+'_players') {
         (async function() {
                 var rconBatch = fs.createWriteStream("./rcon/rcon_ASAPlayers.bat");
                 await sleep(500)
@@ -312,7 +313,7 @@ client.on('interactionCreate', (interaction) =>{
             
                 if(playerList[0].trim() === 'No Players Connected'){
                     const plListEmbed = new EmbedBuilder()
-                    .setTitle('ASA THE ISLAND SERVER:')
+                    .setTitle(process.env.Message_Tittle)
                     .addFields({name: 'ONLINE PLAYERS:', value: ('No Players Connected')})
                     .setColor(0xff0000)
                     interaction.reply({embeds: [plListEmbed]});
@@ -331,13 +332,13 @@ client.on('interactionCreate', (interaction) =>{
                     await sleep(800)
                     if(interaction.channelId !== (process.env.Chat_Channel_ID)){
                     const plListEmbed = new EmbedBuilder()
-                    .setTitle('ASA THE ISLAND SERVER:')
+                    .setTitle(process.env.Message_Tittle)
                     .addFields({name: 'ONLINE PLAYERS:', value: newPlayerList})
                     .setColor(0x00e8ff)
                     interaction.reply({embeds: [plListEmbed]});
                     }else{
                     const plListEmbed = new EmbedBuilder()
-                    .setTitle('ASA THE ISLAND SERVER:')
+                    .setTitle(process.env.Message_Tittle)
                     .addFields({name: 'ERROR:', value: 'You cant send player list to in game chat!'})
                     .setColor(0xff0000)
                     interaction.reply({embeds: [plListEmbed]});

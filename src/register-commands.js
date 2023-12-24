@@ -3,7 +3,7 @@ const {REST, Routes, ApplicationCommandOptionType} = require ('discord.js');
 
 const commands = [
     {
-        name: 'asa_the_island_rcon',
+        name: (process.env.Map_Name)+'_rcon',
         description: 'Send RCON commands to server',
         options: [
             {
@@ -16,7 +16,7 @@ const commands = [
     },
 
     {
-        name: 'asa_the_island_server',
+        name: (process.env.Map_Name)+'_server',
         description: 'Controls Ark Survival Ascended Island server',
         options: [
             {
@@ -59,7 +59,7 @@ const commands = [
     },
 
     {
-        name: 'asa_the_island_players',
+        name: (process.env.Map_Name)+'_players',
         description: 'See the currently connected players for Ark Survival Ascended The Island server',
     },
 ];
