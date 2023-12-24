@@ -3,7 +3,7 @@
 VGS ASA Server Control Bot
 By Crito @Vanaheim Gaming Servers
 https://discord.gg/pxC7qSzQ8X
-v1.1 12/20/2023
+v1.2 12/24/2023
 
 donate to the project:
 https://www.paypal.com/paypalme/VanaheimServers
