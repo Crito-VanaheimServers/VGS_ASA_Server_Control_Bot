@@ -160,49 +160,44 @@ Part 4:	File setup for your bot
 				
 	3. 	Place the VGS_ASA_Server_Control_Bot folder where ever you would like.
 	
-	4.	Go into VGS_ASA_Server_Control_Bot folder and find ASA_The_Island_Start file. Right click on it
+	4.	Go into VGS_ASA_Server_Control_Bot folder and find VGS_ASA_Server_Controller_Start.bat file. Right click on it
 		and find Edit or Edit With to edit the file with a text editor.
 	
-	5.	Scroll a few lines down and everywhere you see :: read these lines they are instructions.
-	
-	6. 	Fill this in with your information and save the file.
-	
-	7.	Next in the VGS_ASA_Server_Control_Bot folder you will find a .env file. Right click this File
-		and find Edit or Edit With to edit the file with a text editor.
-		
-	8.	At top of this file we need our bot token. Go back to the bot page I said we would come back to
+	5.	all lines with :: are instructions read them they will guide your with putting in correct info.
+ 		At top of this file we need our bot token. Go back to the bot page I said we would come back to
 		on the discord developers portal.
-		
-	9. 	On the left side of the page select the Bot tab, on this page you should find you bots icon picture
+
+  	6. 	On the left side of the page select the Bot tab, on this page you should find you bots icon picture
 		and next to it you should see Reset Token button, click on this button.
 		
-	10.	Yes you want to reset bots token, once reset there should be a copy button to copy the token.
+	7.	Yes you want to reset bots token, once reset there should be a copy button to copy the token.
 		press this and paste the token in the token area of our .env file.
 		
 		note: 	Your bot token should be kept safe and not shared with anyone. If it gets compromised you can Reset
 				your bot token but will need to update it in you .env file for the bot.
 				
-	11.	Next we need the ID's for our Discord Server, Bot, and Discord Channels. So to get these we need to make sure
+	8.	Next we need the ID's for our Discord Server, Bot, and Discord Channels. So to get these we need to make sure
 		developer mode is on for us in discord. Go to discord and find User Settings usually located bottom left corner
 		near your personal icon and click it.
 		
-	12.	On the left side of User Settings scroll down until you find Advanced and click this, you should now see at the 
+	9.	On the left side of User Settings scroll down until you find Advanced and click this, you should now see at the 
 		top Developer Mode. Turn this on.
 		
-	13. Go back to your discord server and at the top left is your servers name, Right click on this and you should Now
+	10. 	Go back to your discord server and at the top left is your servers name, Right click on this and you should Now
 		have Copy Server ID as the last option in the dropdown. If you do not see Copy Server ID than you did not turn on
 		Developer Mode.
 		
-	14. Go back to .env file and paste in the ID to correct location. Do this for all the ID's you need.
+	11. 	Go back to VGS_ASA_Server_Controller_Start.bat file and paste in the ID to correct location. Do this for all the ID's you need.
 		Find the bot in the player list right click and copy ID, right click on channels and click copy ID.
 		
-	15. Once you have finished putting in your information to the .env file, save the file.
-	
-	16. If you have made it this far Congratulations you should be ready to start your bot by double clicking on
-		ASA_The_Island_Start.bat found in VGS_ASA_Server_Control_Bot folder. You should than be able to go to your
+	12. 	when you get to the line ::DONT TOUCH ANYTHING BELOW THIS LINE UNLESS
+ 		YOU KNOW WHAT YOU ARE DOING OR YOU WILL BREAK THINGS!! Stop and save the file.
+			
+	13. 	If you have made it this far Congratulations you should be ready to start your bot by double clicking on
+		VGS_ASA_Server_Controller_Start.bat found in VGS_ASA_Server_Control_Bot folder. You should than be able to go to your
 		discord and see your bot online now.
 		
-		If you have set everything up correctly than ASA_The_Island_Start.bat will do it all for you. It will start
+		If you have set everything up correctly than VGS_ASA_Server_Controller_Start.bat will do it all for you. It will start
 		your server and your bot. It will auto update each restart and anytime the server is manually restarted.
 		If for some reason your bot goes offline just start the ASA_The_Island_Start.bat again. You can run this File
 		while server is running and it will not mess with the server while it is running.
