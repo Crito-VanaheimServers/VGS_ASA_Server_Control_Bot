@@ -20,8 +20,7 @@ const client = new Client({
 client.on('ready', (c) => {
     console.log(`${c.user.tag} is online.`);
 
-
-        (async function() {
+            (async function() {
                 var rconStatusBat = fs.createWriteStream("./rcon/rcon_BotStatus.bat");
                 await sleep(500);
                 rconStatusBat.write('@echo off\n%~dp0mcrcon.exe -H '+(process.env.ASA_ServerIP)+' -P '+(process.env.ASA_rcon_port)+' -p '+(process.env.ASA_password)+' "ListPlayers">%~dp0rcon_BotStatus.txt\nfor /f "usebackq tokens=* delims=" %%a in ("%~dp0rcon_BotStatus.txt") do (echo(%%a)>>~.txt\nmove /y  ~.txt "%~dp0rcon_BotStatus.txt"\nexit /b 0');
@@ -58,7 +57,10 @@ client.on('ready', (c) => {
                 (async function() {
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_BotStatus.bat') , function (){});
                 await sleep(1000);
+
+                try {
                 var rconPlayerCnt = fs.readFileSync('./rcon/rcon_BotStatus.txt', 'utf-8').split(/[,,\n]/);
+                await sleep(1000);
                 var PlyrCount = 0;
                 
                     if(rconPlayerCnt[0].trim() === 'No Players Connected'){
@@ -85,34 +87,41 @@ client.on('ready', (c) => {
                             status: 'online' 
                         });
                     }
+                } catch (error) {
+                    return
+                }
+
 
              
                 require('child_process').exec('cmd /c start /min "" cmd /c' + (process.env.Bot_Folder_Path) + ('/rcon/rcon_GetChat.bat') , function (){});
-                await sleep(2500);
-                var rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);
-                await sleep(2500);
-
-                    if(rconGetChat[0].trim() === 'Server received, But no response!!'){
-                        return
-                    }else{
-                        for (let i = 0; i < rconGetChat.length; i++) {                        
-                            if(rconGetChat[i].length > 2){
-                                var PlyrChat = rconGetChat[i];
-                                console.log(PlyrChat.substring(0))
-                                PlyrChat = PlyrChat.substring(0, PlyrChat.length - 0);
-
-                                if(PlyrChat.includes("(From Discord)")){
-                                }else{
-                                    if(PlyrChat.includes("AdminCmd")){
+                await sleep(1000);
+                
+                try {
+                        var rconGetChat = fs.readFileSync('./rcon/rcon_GetChat.txt', 'utf-8').split(/[\n]/);
+                        await sleep(1000);
+                        if(rconGetChat[0].trim() === 'Server received, But no response!!'){
+                        }else{
+                            for (let i = 0; i < rconGetChat.length; i++) {                        
+                                if(rconGetChat[i].length > 2){
+                                    var PlyrChat = rconGetChat[i];
+                                    console.log(PlyrChat.substring(0))
+                                    PlyrChat = PlyrChat.substring(0, PlyrChat.length - 0);
+    
+                                    if(PlyrChat.includes("(From Discord)")){
                                     }else{
-                                        const gameChatEmbed = new EmbedBuilder()
-                                        .addFields({name: 'GAME CHAT:', value: (`${PlyrChat}`)})
-                                        .setColor(0x00e8ff)
-                                        client.channels.cache.get((process.env.Chat_Channel_ID)).send({embeds: [gameChatEmbed]});
-                                    }
-                                } 
-                            }                   
+                                        if(PlyrChat.includes("AdminCmd")){
+                                        }else{
+                                            const gameChatEmbed = new EmbedBuilder()
+                                            .addFields({name: 'GAME CHAT:', value: (`${PlyrChat}`)})
+                                            .setColor(0x00e8ff)
+                                            client.channels.cache.get((process.env.Chat_Channel_ID)).send({embeds: [gameChatEmbed]});
+                                        }
+                                    } 
+                                }                   
+                            }
                         }
+                    } catch (error) {
+                        return
                     }
                 })();
             },10000);
