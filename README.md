@@ -3,7 +3,7 @@
 VGS ASA Server Control Bot
 By Crito @Vanaheim Gaming Servers
 https://discord.gg/pxC7qSzQ8X
-v1.2 12/24/2023
+v1.3 12/30/2023
 
 donate to the project:
 https://www.paypal.com/paypalme/VanaheimServers
@@ -86,7 +86,9 @@ EXTRA FEATURES
 
 Change Notes:
 	12/20/23 Added slash command for admin channel to put in any rcon command and run it from the bot to server.
- 
+
+  	12/30/23 Bot crash fixes for get chat and player count display
+   
 ###########################	INSTALLATION INSTRUCTIONS	########################################
 
 PART 1:	Nodejs Installation
@@ -156,7 +158,7 @@ Part 4:	File setup for your bot
 		if they do not than you will need to make this folder and put them into it.
 		
 		note:	file structure should be: VGS_ASA_Server_Control_Bot folder and in this folder should be 
-				node_modules folder, rcon folder, src folder, .env file, ASA_The_Island_Start.bat File
+				node_modules folder, rcon folder, src folder, ASA_The_Island_Start.bat File
 				ASAPic.jpg file, package.json file, package-lock.json file, and README.md file.
 				
 	3. 	Place the VGS_ASA_Server_Control_Bot folder where ever you would like.
