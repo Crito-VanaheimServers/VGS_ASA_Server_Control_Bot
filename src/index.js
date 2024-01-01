@@ -88,7 +88,6 @@ client.on('ready', (c) => {
                         });
                     }
                 } catch (error) {
-                    console.error("Error reading BotStatus.txt file:", error);
                     return
                 }
 
@@ -122,7 +121,6 @@ client.on('ready', (c) => {
                             }
                         }
                     } catch (error) {
-                        console.error("Error reading GetChat.txt file:", error);
                         return
                     }
                 })();
