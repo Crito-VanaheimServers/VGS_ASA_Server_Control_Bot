@@ -88,6 +88,7 @@ client.on('ready', (c) => {
                         });
                     }
                 } catch (error) {
+                    console.error("Error reading BotStatus.txt file:", error);
                     return
                 }
 
@@ -121,6 +122,7 @@ client.on('ready', (c) => {
                             }
                         }
                     } catch (error) {
+                        console.error("Error reading GetChat.txt file:", error);
                         return
                     }
                 })();
@@ -162,7 +164,7 @@ client.on('interactionCreate', (interaction) =>{
                 .setColor(0x00e8ff)
                 interaction.reply({embeds: [sartcommand]});
 
-                require('child_process').exec('cmd /c start "" cmd /c ASA_The_Island_Start.bat', function (){});       
+                require('child_process').exec('cmd /c start "" cmd /c' + (process.env.Bot_Folder_Path) + ('VGS_ASA_Server_Controller_Start.bat'), function (){});       
             }else{
                 const sartcommand = new EmbedBuilder()
                 .setTitle(process.env.Message_Tittle)
