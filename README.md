@@ -87,7 +87,9 @@ EXTRA FEATURES
 Change Notes:
 	12/20/23 Added slash command for admin channel to put in any rcon command and run it from the bot to server.
 
-  	12/30/23 Bot crash fixes for get chat and player count display
+  	12/30/23 Bot crash fixes for get chat and player count display.
+
+   	01/01/24 Fixed start command not starting server.
    
 ###########################	INSTALLATION INSTRUCTIONS	########################################
 
